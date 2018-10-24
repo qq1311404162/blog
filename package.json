@@ -1,0 +1,26 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "a blog with vuepress",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qq1311404162/blog.git"
+  },
+  "keywords": [
+    "blog",
+    "vuepress"
+  ],
+  "author": "weiliang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qq1311404162/blog/issues"
+  },
+  "homepage": "https://github.com/qq1311404162/blog#readme",
+  "devDependencies": {
+    "vuepress": "^0.14.4"
+  }
+}
