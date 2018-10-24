@@ -2,6 +2,7 @@ module.exports = {
     title: '闲庭梦若',
     description: 'blog',
     themeConfig: {
+        repo: 'https://github.com/qq1311404162/blog',
         nav: [
           { text: 'Home', link: '/' },
           { text: 'Test', link: '/A/a' },
