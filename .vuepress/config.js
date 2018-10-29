@@ -25,35 +25,49 @@ module.exports = {
                     title: 'JavaScript',
                     collapsable: true,
                     children: [
-                        ['javaScript/var', '从运行机制看变量提升'],
-                        ['javaScript/prototype', '原型及原型链'],
+                        ['javaScript/var', '作用域以及执行上下文'],
+                        ['javaScript/var', '闭包'],
+                        ['javaScript/var', 'new'],
+                        ['javaScript/var', '深浅拷贝'],
                         ['javaScript/this', 'this'],
+                        ['javaScript/prototype', '原型及原型链'],
                         ['javaScript/async', '异步'],
+                        ['javaScript/async', '类型转换'],
+                        ['javaScript/async', 'typeOf与instanceof'],
+                        ['javaScript/async', '模块化'],
                     ]
                 },
                 {
                     title: 'HTML',
                     collapsable: true,
                     children: [
-                        ['html', 'html'],
+                        // ['html', 'HTML5 新特性'],
+                        ['html/storage', 'HTML5 本地存储'],
+                        ['html/canvas', 'Canvas'],
+                        ['html', '缓存'],
                     ]
                 },
                 {
                     title: 'CSS',
                     collapsable: true,
                     children: [
-                        ['html', 'html'],
+                        ['css/media', '媒体查询'],
+                        ['css/transtorm', '转换'],
+                        ['css/transition', '过度'],
+                        ['css/animation', '动画'],
+                        ['css/flex', 'flex布局'],
                     ]
                 },
                 {
-                    title: 'DOM 相关',
+                    title: '浏览器相关',
                     collapsable: true,
                     children: [
                         ['html', 'DOM 标准'],
+                        ['html', 'BOM 标准'],
                     ]
                 },
                 {
-                    title: 'HTTP 相关',
+                    title: '网络',
                     collapsable: true,
                     children: [
                         ['http/cache', 'HTTP 缓存'],
