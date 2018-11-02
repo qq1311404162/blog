@@ -3,14 +3,22 @@
 ### 闭包的本质
 基于词法作用域书写代码时产生的自然结果。
 
-先来看一段代码
 ```
-function foo(){
+var a = 1;
+function foo() {
     var a = 2;
-    function bar(){
-        console.log(a); // 2
+    return function(){
+        console.log(a);
     }
-    bar();
 }
-foo()
+var b = foo();
+b(); // 2
+
+function fun(){
+    var a = 3;
+    setTimeout(function(){
+        console.log(a);
+    }, 0);
+}
+fun(); // 3
 ```
