@@ -57,6 +57,7 @@ module.exports = {
                     title: 'CSS',
                     collapsable: true,
                     children: [
+                        ['css/read', 'CSS'],
                         ['css/media', '媒体查询'],
                         ['css/transtorm', '转换'],
                         ['css/transition', '过度'],
