@@ -93,6 +93,9 @@ module.exports = {
                         ['html', 'html'],
                     ]
                 },
+            ],
+            '/backend/': [
+                ['node', 'node']
             ]
 
         }
