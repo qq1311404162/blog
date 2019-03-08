@@ -42,4 +42,4 @@ JS 引擎遇到异步代码时，会将代码挂起并加入到队列中，一�
 ### async await
 
 
-### Promise
+### 手写Promise
