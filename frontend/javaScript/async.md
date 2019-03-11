@@ -35,6 +35,7 @@ JS 引擎遇到异步代码时，会将代码挂起并加入到队列中，一�
 
 ##### node 中的 Event Loop
 略
+http://www.php.cn/js-tutorial-408369.html
 
 
 ### promise

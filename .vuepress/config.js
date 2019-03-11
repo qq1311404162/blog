@@ -2,7 +2,11 @@ module.exports = {
     title: '闲庭梦若',
     description: '好记性不如烂笔头',
     head: [
-        ['link', { rel: 'stylesheet', type: 'text/css', href: `/markdown.css` }]
+        ['link', {
+            rel: 'stylesheet',
+            type: 'text/css',
+            href: `/markdown.css`
+        }]
     ],
     themeConfig: {
         repo: 'https://github.com/qq1311404162/blog',
@@ -43,6 +47,22 @@ module.exports = {
                         ['javaScript/async', '模块化'],
                     ]
                 },
+                ['browser/', '浏览器'],
+                // {
+                //     title: '浏览器',
+                //     collapsable: true,
+                //     children: [
+                //         ['browser/readmea', '浏览器'],
+                //         // ['browser/window', 'BOM'],
+                //         // ['browser/document', 'DOM'],
+                //         // ['browser/event', '事件'],
+                //         // ['browser/storage', '存储'],
+                //         // ['browser/kuayu', '跨域'],
+                //         // ['browser/render', '渲染'],
+                //         // ['browser/async', '异步'],
+                //         // ['browser/error', '错误处理'],
+                //     ]
+                // },
                 {
                     title: 'HTML',
                     collapsable: true,
@@ -63,20 +83,6 @@ module.exports = {
                         ['css/transition', '过度'],
                         ['css/animation', '动画'],
                         ['css/flex', 'flex布局'],
-                    ]
-                },
-                {
-                    title: '浏览器',
-                    collapsable: true,
-                    children: [
-                        ['browser/window', 'BOM'],
-                        ['browser/document', 'DOM'],
-                        ['browser/event', '事件'],
-                        ['browser/storage', '存储'],
-                        ['browser/kuayu', '跨域'],
-                        ['browser/render', '渲染'],
-                        ['browser/async', '异步'],
-                        ['browser/error', '错误处理'],
                     ]
                 },
                 {
