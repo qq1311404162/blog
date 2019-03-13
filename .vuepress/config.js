@@ -48,6 +48,7 @@ module.exports = {
                     ]
                 },
                 ['browser/', '浏览器'],
+                ['network', '网络'],
                 // {
                 //     title: '浏览器',
                 //     collapsable: true,
@@ -85,13 +86,13 @@ module.exports = {
                         ['css/flex', 'flex布局'],
                     ]
                 },
-                {
-                    title: '网络',
-                    collapsable: true,
-                    children: [
-                        ['http/cache', 'HTTP 缓存'],
-                    ]
-                },
+                // {
+                //     title: '网络',
+                //     collapsable: true,
+                //     children: [
+                //         ['http/cache', 'HTTP 缓存'],
+                //     ]
+                // },
                 {
                     title: '框架',
                     collapsable: true,
