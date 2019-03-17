@@ -1,4 +1,4 @@
-### 
+##
 JavaScript 中，万物皆对象。大致分为两类：**普通对象(Object)** 和 **函数对象(Function)**
 
 **函数对象的 typeof 值为 function，普通对象的 typeof 值为 object**

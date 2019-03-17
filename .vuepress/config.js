@@ -28,25 +28,27 @@ module.exports = {
             },
         ],
         sidebar: {
-            '/frontend/': [{
-                    title: 'JavaScript',
-                    collapsable: true,
-                    children: [
-                        ['javaScript/var', '作用域以及执行上下文'],
-                        ['javaScript/closure', '闭包'],
-                        ['javaScript/expression', '函数表达式'],
-                        ['javaScript/object', '对象'],
-                        ['javaScript/new', 'new'],
-                        ['javaScript/var', '深浅拷贝'],
-                        ['javaScript/this', 'this'],
-                        ['javaScript/prototype', '原型及原型链'],
-                        ['javaScript/extend', '继承'],
-                        ['javaScript/async', '异步'],
-                        ['javaScript/conversion', '类型转换'],
-                        ['javaScript/async', 'typeOf与instanceof'],
-                        ['javaScript/async', '模块化'],
-                    ]
-                },
+            '/frontend/': [
+                ['javaScript/', 'JavaScript'],
+                // {
+                //     title: 'JavaScript',
+                //     collapsable: true,
+                //     children: [
+                //         ['javaScript/var', '作用域以及执行上下文'],
+                //         ['javaScript/closure', '闭包'],
+                //         ['javaScript/expression', '函数表达式'],
+                //         ['javaScript/object', '对象'],
+                //         ['javaScript/new', 'new'],
+                //         ['javaScript/var', '深浅拷贝'],
+                //         ['javaScript/this', 'this'],
+                //         ['javaScript/prototype', '原型及原型链'],
+                //         ['javaScript/extend', '继承'],
+                //         ['javaScript/async', '异步'],
+                //         ['javaScript/conversion', '类型转换'],
+                //         ['javaScript/async', 'typeOf与instanceof'],
+                //         ['javaScript/async', '模块化'],
+                //     ]
+                // },
                 ['browser/', '浏览器'],
                 ['network', '网络'],
                 // {
@@ -74,18 +76,19 @@ module.exports = {
                         ['html', '缓存'],
                     ]
                 },
-                {
-                    title: 'CSS',
-                    collapsable: true,
-                    children: [
-                        ['css/read', 'CSS'],
-                        ['css/media', '媒体查询'],
-                        ['css/transtorm', '转换'],
-                        ['css/transition', '过度'],
-                        ['css/animation', '动画'],
-                        ['css/flex', 'flex布局'],
-                    ]
-                },
+                ['css/read', 'CSS'],
+                // {
+                //     title: 'CSS',
+                //     collapsable: true,
+                //     children: [
+                //         ['css/read', 'CSS'],
+                //         // ['css/media', '媒体查询'],
+                //         // ['css/transtorm', '转换'],
+                //         // ['css/transition', '过度'],
+                //         // ['css/animation', '动画'],
+                //         // ['css/flex', 'flex布局'],
+                //     ]
+                // },
                 // {
                 //     title: '网络',
                 //     collapsable: true,
@@ -97,12 +100,16 @@ module.exports = {
                     title: '框架',
                     collapsable: true,
                     children: [
-                        ['html', 'html'],
+                        ['frame/vue', 'vue'],
+                        ['frame/react', 'react'],
                     ]
                 },
             ],
             '/backend/': [
                 ['node', 'node']
+            ],
+            '/algorithmAndDataStructure/': [
+                ['algorithm', '算法']
             ]
 
         }

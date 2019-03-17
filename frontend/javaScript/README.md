@@ -1,0 +1,308 @@
+## 数据结构
+* 原始(Primitive)类型：Boolean，String，Number，null，undefined，Symbol
+* 引用类型：Object
+
+**String、Number、Boolean 类型的值在定义时，JS 引擎自动创建一个对应的对象副本，使用函数时会自动使用这个副本进行调用**
+### typeof null === object 
+由于 JS 的最初版本使用的是 32 位系统，其中 000 开头代表对象，而 null 全部为 0，所以会错误的判断为 object
+
+### 函数传参
+原始类型中存储的都是值，引用类型中存储的是指向具体地址的指针
+
+函数参数传入值类型，参数是对象时，修改参数的值，外面的对象值也会改变
+## 类型判断
+* typeof
+* instanceof
+* constructor
+* toString
+
+### typeof
+是一个操作符，右侧跟一个一元表达式，并返回表达式的数据类型，返回的结果用该类型的小写字母表示
+* null -> object
+* 其余基本类型 -> 返回正确类型
+* function -> function
+* 其余引用类型 -> object
+### instanceof
+A instanceof B：用来判断 A 是否为 B 的实例，返回 true or false。instanceof 检测的是原型，所以只能用来判断两个对象是否属于实例关系，不能直接判断一个实例属于哪种类型。
+### constructor
+constructor 属性会指向生成此实例的构造函数
+
+* null 和 undefined 是无效对象，没有 constructor 属性
+* 自定义对象被重写 prototype 后，原有的 constructor 引用会丢失，默认指向 Object
+### toString()
+toString() 是Object 的原型方法，调用该方法，默认返回当前对象的[[Class]]，其格式为 [Object Xxx]，Xxx 是对象的具体类型
+
+除了 Object 外，其他类型需要使用 apply/call 来调用才能返回正确的类型
+
+`Object.prototype.toSting.call(null) === [Object Null]`
+ ## 类型转换
+ JS 中类型转换只有 3 中情况，分别是
+ * 转换为 Boolean
+ * 转换为 Number
+ * 转换为 String
+ ### 转换为 Boolean
+ 除了 undefined、null、false、NaN、''、0、-0 外，其他都是 true
+ ### 转换为 Number
+ * undefined：NaN
+ * null：0
+ * Boolean： true -> 1; false -> 0
+ * 字符串：纯数字字符串转为相应数字，空字符串转为 0，否则一律为 NaN
+ * 数组、对象：首先转换 toPrimitive，然后根据转换后的值按照上面的规则处理
+ ### 转换为 String
+ * null、undefined、Boolean、数字：直接用引号包裹为字符串
+ * 数组：将所有元素通过逗号连接起来，其中的 null 和 undefined 当做空字符串处理。相当于 Array.prototype.join()
+ * 普通对象：相当于直接调用 Object.prototype.toString() 方法
+### toPrimitive
+对象转换为原始类型时
+1. 先查找 valueOf 方法，如果返回原始类型，使用返回值作为结果
+2. 再查找 toSting 方法，入股返回原始类型，使用返回值作为结果
+3. 如果上面两个都没有返回原始类型，则抛出异常
+
+数组的 valueOf() 值依然是数组，toString() 值为使用逗号拼接的字符串
+对象的 valueOf() 值依然是对象。toString() 值为'[Object Object]'
+
+## 宽松相等(==) 比较
+**NaN 和任何值都不相等，包括它自己**
+
+== 两边类型相同时，会直接比较两边的值
+### Boolean 和其他类型
+只要 Boolean 参与比较，那么该 Boolean 类型首先被转换成 Number，然后再进行其他比较
+### Number 和 String 比较
+这两个相比较时，会先将 String 转换为 Number，然后再进行比较
+### null、undefined 和其他类型比较
+* null 和 undefined 之间宽松相等，即 null == unfettered
+* null 和 undefined 与自身相等
+* null 和 undefined 与其他值都不宽松相等
+### 引用类型和原始类型比较
+比较时，先将对象 toPrimitive 成原始类型，然后根据上面的规则进行比较
+
+
+## 四则运算
+### 加法
+* 运算中有一个是 String，就会把另一个也转换成 String
+* 如果有一个不是 String 或者 Numbe，就会将其转换成 String 或者 Number
+### 其他运算符
+只要有一方是数字，另一方就会被转换成数字
+
+
+
+## JS 引擎工作原理
+JS 引擎在进入一段可执行的代码时，引擎会创建一个**全局对象**，然后会构建一个**执行栈**。之后会自动创建一个全局执行上下文，遇到函数执行时，会创建并进入函数执行上下文。
+
+每创建一个执行上下文时，JS 引擎会将其放入执行栈(先入后出)的顶部，每当函数执行完毕，JS 引擎会将其执行上下文从执行栈中弹出。
+
+JS 引擎待执行上下文入栈后，便开始执行其内部的代码
+
+##### 创建执行上下文
+js 引擎创建执行上下文有三个过程
+* 作用域链
+* 变量对象
+* this 绑定
+
+##### 作用域链
+<!-- 用于标识符解析，当执行环境被创建时，作用域链就初始化为当前运行函数的scope所包含的对象 -->
+JS 引擎查找变量时，会根据作用域链一层层查找变量是否存在。
+###### 词法作用域
+又叫静态作用域，即作用域在定义的时候就决定，与调用地点无关。JS 采用的就是词法作用域
+```
+var value = 1;
+function foo() {
+    console.log(value);
+}
+function bar() {
+    var value = 2;
+    foo();
+}
+bar(); // 输出 1
+```
+###### 函数创建
+函数有个内部属性 [[scope]]，当函数创建时，会将**当前执行上下文的活动对象**保存到这个属性中
+###### 函数激活
+即创建函数上下文时，初始化作用域链，将[[scope]]属性的值放入作用域链中
+
+##### 变量对象
+变量对象是当前执行上下文相关的数据作用域，存储了该上下文中定义的变量和函数声明
+
+当变量对象创建完毕后，会被推入作用域链的顶端
+
+在定义函数时，会将当前活动对象的值指向函数的[[scope]]属性
+
+###### 全局变量对象
+当 JS 引擎创建一个全局执行上下文时，会自动创建一个全局变量对象，并将其指向全局对象。该变量对象中不仅包含了全局对象的原有属性，还包含了定义在全局执行上下文中的变量和函数
+
+###### 函数变量对象
+函数执行上下文的变量对象，除了该上下文中定义的变量和函数外，还包括了函数的形参，arguments 对象
+
+##### this 绑定
+将 this 绑定到变量对象上？？？
+
+
+
+
+#####  代码执行
+js 引擎顺序执行代码，根据代码修改变量对象的值。当遇到执行函数时，创建新的函数执行上下文
+
+
+## 闭包
+父函数被销毁的情况下，返回的子函数仍然能访问父级函数中定义的变量
+
+##### 产生原因
+由于函数定义时，会将当前执行上下文的活动对象放入内部属性[[scope]]中。在父函数执行上下文出栈时，由于返回的子函数中引用了其变量对象，所以 JS 引擎并不会回收这个对象，会一直保存在内存中等待被子函数访问
+
+#### 闭包应用
+* 模拟块级作用域。由于 js 中所有变量在当前上下文中共享，可以使用闭包模拟一个块级作用域，使之成为自己的上下文属性
+* 使用函数参数作为变量参数，避免默认[[scope]]属性向上查找
+<!-- **基于词法作用域书写代码产生的自然结果** -->
+
+
+## call,apply,bind
+call,apply,bind 是 Function 对象自带的三个方法，三个方法主要功能相同，为**改变函数中 this 的指向**，区别在于使用方式不同
+
+#### call(obj [, args...])
+call 方法，第一个参数为调用函数中 this 需要指向的对象；args... 为需要传入的函数参数
+
+#### apply(obj [, args[]])
+apply 方法，第一个参数为调动函数中 this 需要指向的对象；args[] 数组为需要传入的参数
+
+#### bind(obj [, args...])
+bing 方法是 ES5 中新增的方法，第一个参数为调用函数中 this 需要指向的对象；args... 为需要传入的函数参数
+
+**bind执行后返回一个函数，并非自动执行。并且 bind 方法绑定的对象，无法通过 call,apply 来再次改变**
+
+#### 传入对象取值
+* 不传，null，undefined     --> this 指向 window 对象
+* 另一个函数的函数名          --> this 指向这个函数的引用
+* 一个对象                  --> this 指向这个对象
+* 基础类型                  --> this 指向其包装对象
+
+
+**new**一个对象的过程
+1. 生成一个新对象
+2. 链接到原型
+3. 用 call 绑定 this
+4. 返回新对象（如果构造函数有自己 return，返回该值）
+```
+// 手动实现一个 new
+function create(Super) {
+    // 1. 创建一个空对象
+    let obj = new Object();
+    // 2. 设置原型链
+    obj.__proto__ = Super.prototype;
+    // 3. 绑定 this
+    let result = Super.call(obj);
+    // 返回
+    return typeof result === 'object' ? result : obj;
+}
+```
+
+## 原型及原型链
+JavaScript 中，万物皆对象。大致分为两类：**普通对象(Object)** 和 **函数对象(Function)**
+
+**函数对象的 typeof 值为 function，普通对象的 typeof 值为 object**
+
+### 创建对象
+JS 中所有的对象(null 除外)都是通过构造函数来创建的。var obj = {} 这种只是一个语法糖，真正执行的操作为 var obj = new Object();
+
+##### 函数对象
+new Function() 产生的对象都是函数对象，常见方式有
+* 函数定义，如：funtion fn1() {}
+* 匿名函数表达式赋值，如：var fn2 = function() {}
+* Function 声明函数，如：var fn3 = new Function('x', '{console.log(x)}')
+
+**注：函数定义和匿名函数也是一个语法糖，JS 引擎会自动通过 new Function() 的方式来创建这些函数对象**
+##### 普通对象
+除了函数对象外，其他方式 创建的对象都是普通对象
+
+
+### prototype 
+**prototype** 是每个函数对象都有的属性，被称为**函数的原型**，该属性的主要作用是继承，该函数实例化的属性，都可以访问其中的属性和方法
+
+**Function.prototype.bind() 没有 prototype 属性**
+
+### constructor
+prototype 中的属性，该属性指向其关联的构造函数
+```
+function Test() {
+
+}
+console.log(Test === Test.prototype.constructor) // true
+```
+
+### `__proto__`
+所有对象(除了 null)都具有的一个属性，该属性指向该对象的原型
+
+**注：由于所有对象都是通过构造函数创建，所以每个对象的 `__proto__` 属性指向的是其构造函数的原型，即构造函数的 prototype 属性**
+
+由于 prototype 属性也是一个对象，所以该对象也有`__proto__` 属性
+* 所有对象都是从 Object 继承而来
+* `Object.prototype.__proto__` === null，原型链到此终结
+* `Function.prototype.__proto__` === Object.prototype
+* JS 内置构造函数(Array, RegExp, Function, Object, Number, String, Boolean)的`__proto__` 指向 Function.prototype。即 `Array/RegExp/Function/Object/Number/String/Boolean.__proto__` === Function.prototype
+
+
+### 原型链
+通过`__proto__`互相关联的结构，称为原型链
+
+##### 作用
+对象查找属性或方法时，首先会查找自身是否具有该属性或方法，当找不到时，则会顺着`__proto__`属性一步步往上面查找，直到值为 null 时停止查找
+
+
+
+## 异步
+### 进程与线程
+
+##### 进程
+
+##### 线程
+
+### 并发与并行
+##### 并发(concurrency)
+**同一时间间隔内**处理多个任务，称为并发
+##### 并行(parallelism)
+**同一时间点同时**处理多个任务，称为并行
+
+### Event Loop(事件循环)
+JS 是门单线程语言，其本身是不能异步的，但是 JS 的宿主环境(浏览器，node)是多线程的，宿主环境通过**事件循环**，使得 JS 具备了异步的属性
+
+JS 引擎遇到异步代码时，会将代码挂起并加入到队列中，一旦执行栈为空，事件循环就会从队列中拿出要执行的代码继续执行
+
+##### 浏览器中的 Event Loop
+* 宏任务：JS 主体代码，setTimeout，setInterval，setImmediate，I/O，UI rendering
+* 微任务：Promise，process.nextTick，MutationObserver
+
+##### 一个事件循环的执行顺序
+1. 开始一个 Event Loop
+2. 执行栈从 task queue 中取宏任务，并执行，执行完毕后，清空执行栈
+3. 执行栈从 microtasks queue 中取微任务并执行，执行完毕后，清空执行栈
+4. 判断当前队列是否还有微任务未执行，有则重复步骤 3
+5. 渲染 DOM
+6. 当前 Event Loop 结束
+7. 从步骤 1 再次执行
+
+**每个宏任务执行完毕后，都会查找并执行当前队列中的所有微任务**
+
+
+<!-- 1. 执行 JS 主体代码(宏任务)
+2. 主体代码执行完毕，执行完所有的微任务
+3. 寻找一个新的宏任务执行(注意这里只执行一个宏任务，如果有多个，则要等到这个任务和这个任务包含的微任务执行完毕后，才能执行下一个宏任务)，并执行完毕
+4. 执行完所有的微任务
+5. 如此反复，直到停止 -->
+
+**JS 引擎存在一个monitoring process 进程，持续不断的检查执行栈是否为空，一旦为空，就会去检查是否有等待的其他任务**
+
+##### setTimeout 和 setInterval
+* 根据执行环境的不同，最低延迟时间为1-5ms不等
+* 如果之前的宏任务执行时间过长，会导致超时执行。
+* setInterval 会每隔指定时间将注册的函数放入宏任务队列中
+
+##### node 中的 Event Loop
+略
+http://www.php.cn/js-tutorial-408369.html
+
+
+### promise
+### generator
+### async await
+
+
+### 手写Promise
