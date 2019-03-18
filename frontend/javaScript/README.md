@@ -84,6 +84,126 @@ toString() 是Object 的原型方法，调用该方法，默认返回当前对�
 ### 其他运算符
 只要有一方是数字，另一方就会被转换成数字
 
+## 深浅拷贝
+引用类型中存放的是地址，变量赋值时仅仅复制地址，一个改变，所有都变。通常情况下我们希望两个对象相互独立，所以引入了深浅拷贝
+### 浅拷贝
+浅拷贝只能拷贝对象的值属性，如果值属性是对象，则拷贝的是地址，修改还是会改变原来的值
+
+* Object.assign
+* 展开运算符(...)
+
+### 深拷贝
+拷贝之后的对象修改，之前的对象不会受影响
+
+使用 JSON.parse(JSON.stringfy(object)) 进行深拷贝，但是该方法具有局限性
+* 会忽略 undefined，Symbol 和函数
+* 不能解决循环引用的对象
+
+## 继承
+### 原型链继承
+将父类的实例赋给子类的原型，从而继承父类所有的属性和原型
+```
+function Parent() {
+    this.name = 'jhon';
+    setName(name) {
+        this.name = name;
+    }
+}
+Parent.prototype.getName = function() {
+    console.log(this.name);
+}
+function Child() {
+
+}
+Child.prototype = new Parent();
+```
+
+缺点：
+* 无法向父类的构造函数中传递参数
+* 由于继承自一个父类，父类中引用属性值被所有实例共享
+<!-- * 父类中的所有属性会被实例共享 -->
+### 构造函数继承
+子类中使用 call/apply 调用父类的方法
+```
+function Parent() {
+    this.names = ['aa', 'bb'];
+}
+function Child() {
+    Parent.call(this);
+
+    this.getNames = function () {
+        console.log(this.names);
+    }
+} 
+```
+优点：
+1. 避免了引用类型的属性被所有实例共享
+2. 可以在 Child 中向 Parent 传参
+
+缺点：
+* 方法都在构造函数中定义，每次创建实例都会创建一遍方法
+### 组合继承
+原型链继承和构造函数继承集合，融合了两个继承的优点，是 JS 中最常用的继承模式
+```
+function Parent(name) {
+    this.name = 'john';
+}
+Parent.prototype.getName = function() {
+    console.log(this.name);
+}
+function Child(name, age) {
+    Parent.call(this, name);
+    this.age = age;
+}
+Child.prototype = new Parent();
+```
+缺点：
+* 会调用两次父类的构造函数
+### 原型式继承
+直接使用 Object.assign() 方法，创建一个构造函数，将传入的对象作为创建对象的原型。其实就是 Object.assign() 的模拟实现
+```
+function createObj(object) {
+    function F() {}
+    F.prototype = object;
+    return new F();
+}
+```
+缺点：
+* 由于继承自同一个父类，弗雷中引用属性值被所有实例共享
+### 寄生式继承
+创建一个仅用于封装继承过程的函数，在内部以某种形式来做增强对象，最后返回对象
+```
+function createObj(object) {
+    let clone = Object.create(object);
+    clone.sayName = function () {
+        console.log('hi');
+    }
+    return clone;
+}
+```
+缺点：
+* 每次创建对象时，都会创建一遍方法
+### 寄生组合式继承
+被认为是最理想的继承方式
+```
+function createObj(object) {
+    function F() {}
+    F.prototype = object;
+    return new F();
+}
+function prototype(child, parent) {
+    let prototype = createObj(parent.prototype);
+    prototype.constructor = child;
+    child.prototype = prototype;
+}
+prototype(Child, Parent)
+```
+## 模块化
+## 防抖
+## 节流
+## this？
+## 循环
+
 
 
 ## JS 引擎工作原理
