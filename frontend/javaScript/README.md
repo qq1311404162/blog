@@ -199,6 +199,15 @@ function prototype(child, parent) {
 prototype(Child, Parent)
 ```
 ## 模块化
+模块化大大提高了项目的可维护、可扩展和可协作性
+### 分类
+* ES6：import/export
+* commonJS：require/exports/module.exports
+* amd：require/defined
+### commonJS 的 require 与 ES6 的 import 区别
+* require 支持动态导入，即 require(${path}/xx.js)，而 import 不支持
+* require 是同步导入，因为用于服务端，文件都在本地，即使卡主主线程也影响不大。import 是异步导入，因为用户浏览器，需要下载文件，如果同步导入会对渲染有很大影响
+* require 是值拷贝，就算导出值变了，导入值也不会改变，所以更新必须重新导入一次。import 是引用拷贝，采用实施绑定，导入导出的值都指向同一个地址
 ## 防抖
 ## 节流
 ## this？
