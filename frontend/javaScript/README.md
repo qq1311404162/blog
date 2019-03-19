@@ -210,8 +210,61 @@ prototype(Child, Parent)
 * require 是值拷贝，就算导出值变了，导入值也不会改变，所以更新必须重新导入一次。import 是引用拷贝，采用实施绑定，导入导出的值都指向同一个地址
 ## 防抖
 当持续触发事件时，一定时间段内没有再次触发事件，事件函数才会执行一次，否则就重新开始延时
+```
+function debounce(fn, wait, immediate) {
+    let timer = null;       // 设置定时器
+
+    return function () {
+        // 没有定时器时，立即执行
+        if (immediate && !timer) {
+            fn.apply(this, arguments);
+        }
+        if (timer) clearTimeout(timer);     // 有定时器就清空定时器
+        // 重新放入事件循环
+        timer = setTimeout(() => {
+            fn.apply(this, arguments);
+        }, wait);
+    };
+}
+```
 ## 节流
-## this？
+每隔一段时间后执行一次，降低调用频率，将高频操作化成低频操作，通常用于滚动条事件或 resize 事件
+```
+function throttle(fn, wait, immediate) {
+    let timer = null;           // 设置定时器
+    let callNow = immediate;    // 是否立即执行
+
+    return function () {
+        // 立即执行
+        if (callNow) {
+            fn.apply(this, arguments);
+            callNow = false;    // 设置为 false，防止下一次触发时立即执行
+        }
+        // 没有添加定时函数时，放入事件循环
+        if (!timer) {
+            timer = setTimeout(() => {
+                fn.apply(this, arguments);
+                // 销毁，防止内存常驻
+                timer = null;
+            }, wait);
+        }
+    }
+}
+```
+## this
+谁运行了函数，this 就指向谁
+
+改变 this 指向的方式
+* apply/call/bind
+* new
+
+多个 bind 方法，this 指向第一个被放入的对象
+### 箭头函数与一般函数的区别
+* 匿名函数，不能使用 new
+* 没有 arguments 属性，参数可以通过 ... 获取
+* 不绑定 this
+* 没有原型
+* 不能当做 Generator 函数，不能使用 yield 关键字
 ## 循环
 ### while 循环
 while 循环先判断条件，为 true 时就执行
@@ -238,12 +291,41 @@ for-of 可以使用范围包括数组、Set、Map、类似数组的对象、Gene
 ### forEach
 ES5 新增的，数组原型中自带方法，主要用来遍历数组，实际性能比 for 还弱
 ### map 遍历
-ES5 新增的，数组原型中的自带方法，循环遍历数组中的每一项，支持 return 值，放入一个新的数组返回
+ES5 新增的，数组原型中的自带方法，循环遍历数组中的每一项，将每个元素变换后 return 到新数组中
+### filter
+遍历数组时，将返回值为 true 的元素放入新数组中
+### reduce
+将数组中的元素，通过回调函数最终转换为一个值
 ### break
 跳出本次循环，继续执行循环后面的语句
 ### continue
 跳过本轮循环剩余的代码，继续执行下一次循环
-
+## ES6
+### 解构赋值
+按照一定模式，从数组和对象中提取值赋值,例如
+```
+let [a, b, c] = ['a', 'b', 'c'];
+a  // 'a'
+```
+### 扩展运算符
+将数组转换为用逗号分隔的参数序列
+```
+console.log(...[1, 2, 3, 4, 5]);
+```
+### Set
+新的数据结构，类似于数组，但是每个成员都是唯一的
+### Map
+新的数据结构，类似于对象，但其中键可以为任何类型的值
+### Proxy
+在目标对象之前假设一层拦截，外界对对象的访问都必须先通过这层拦截
+### Reflect
+将 Object 对象的一些明显属于语言内部的方法，放到 Reflect 对象上
+## babel 编译原理
+1. babylon 将 ES6/7 的代码解析成 AST
+2. babel-traverse 对 AST 进行遍历转译，得到新的 AST
+3. 新 AST 通过 babel-generator 转换成 ES5
+## 函数柯里化
+在一个函数中，首先填充几个参数，然后再返回一个新的函数，被称为函数的柯里化
 
 
 ## JS 引擎工作原理
