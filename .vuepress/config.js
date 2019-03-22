@@ -30,6 +30,7 @@ module.exports = {
         sidebar: {
             '/frontend/': [
                 ['javaScript/', 'JavaScript'],
+                ['js', 'new JavaScript'],
                 // {
                 //     title: 'JavaScript',
                 //     collapsable: true,
