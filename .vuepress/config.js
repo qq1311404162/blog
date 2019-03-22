@@ -52,6 +52,7 @@ module.exports = {
                 // },
                 ['browser/', '浏览器'],
                 ['network', '网络'],
+                ['css', 'new CSS'],
                 // {
                 //     title: '浏览器',
                 //     collapsable: true,
